@@ -1,12 +1,10 @@
 import React from 'react';
 import './App.css';
-//import Button from '@material-ui/core/Button';
-import Button from 'react-bootstrap/Button';
-// import TextField from '@material-ui/core/TextField';
-import Form from 'react-bootstrap/Form';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 import SearchIcon from '@material-ui/icons/Search';
-//import LinearProgress from '@material-ui/core/LinearProgress';
-import ProgressBar from 'react-bootstrap/Form';
+import LinearProgress from '@material-ui/core/LinearProgress';
+
 
 class App extends React.Component {
 
@@ -18,7 +16,7 @@ class App extends React.Component {
 
   getMemes = async (e) => {
     e.preventDefault()
-    this.setState({loading: true})
+    this.setState({loading: true, memes:[]})
     var key = 'Kd8A5MXRCFSgM6bRq33arpSGh8aVBBsw'
     var url = `http://api.giphy.com/v1/gifs/search?q=${this.state.text}&api_key=${key}`
     var r = await fetch(url)
@@ -32,12 +30,12 @@ class App extends React.Component {
     return (
       <div className="App">
         <form className="App-header" onSubmit={this.getMemes}>
-          <Form.Control value={text}
+          <TextField value={text}
             autoFocus
-            variant="outlined"
-            placeholder="Search for Memes"
+            variant="filled"
+            label="Search for Memes"
             onChange={e=> this.setState({text: e.target.value})}
-            style={{width:'100%',marginLeft:8}}
+            style={{width:'100%', marginLeft:8}}
           />
           <Button variant="contained"
             color="primary"
@@ -48,7 +46,7 @@ class App extends React.Component {
             Search
           </Button>
         </form>
-        {loading && <ProgressBar striped variant="success" />}
+        {loading && <LinearProgress />}
         <main>
           {memes.map(meme=>{
             return <Meme key={meme.id} meme={meme} />
